@@ -5,10 +5,19 @@ const main = document.querySelector<HTMLDivElement>('#app');
 const btn = document.getElementsByTagName('li') as HTMLCollection;
 
 const toCopy = (btn: HTMLButtonElement, text: HTMLParagraphElement) => {
-    btn.onclick = () => {
+
+    btn.onclick = async () => {
         const textCopy = text.textContent?.trim()
-        document.execCommand('copy', true, textCopy)
-        alert("copy")
+        if (textCopy) {
+            try {
+                await navigator.clipboard.writeText(textCopy)
+                alert("text success copy")
+            } catch (error) {
+                console.log(error);
+
+
+            }
+        }
     }
 }
 
@@ -16,18 +25,15 @@ const getRender = (currentId: number): String | undefined => {
     if (main) {
         return main.innerHTML = `
     <h2 class="text-2xl mb-2">Get teams</h2>
-    <p class="text-gray-500" id="text-${currentId}">
+    <p class="text-gray-500">
         Returns a list of all stored football teams.
     </p>
     <div class="py-4 px-4 my-4 bg-gray-400 rounded-md flex justify-between" >
-        <p>http://localhost:3000/teams</p>
+        <p id="text-${currentId}">http://localhost:3000/teams</p>
         <button class="bg-gray-100 rounded-sm px-2" id="copy-${currentId}">copy</button>
     </div>
         `;
     }
-    const btnToCopy = document.getElementById(`copy-${currentId}`) as HTMLButtonElement
-    const textToCopy = document.getElementById(`text-${currentId}`) as HTMLParagraphElement
-    toCopy(btnToCopy, textToCopy);
 }
 
 const postRender = (currentId: number): String | undefined => {
@@ -36,7 +42,7 @@ const postRender = (currentId: number): String | undefined => {
     <h2 class="text-2xl mb-2">Add a new team</h2>
     <p class="text-gray-500">Adds a new team to the database.</p>
     <div class="py-4 px-4 my-4 bg-gray-400 rounded-md flex justify-between" >
-        <p>http://localhost:3000/team</p>
+        <p id="text-${currentId}">http://localhost:3000/team</p>
         <button class="bg-gray-100 rounded-sm px-2" id="copy-${currentId}">copy</button>
     </div>
     <p>Method: POST</p>
@@ -73,7 +79,7 @@ const putRender = (currentId: number): String | undefined => {
         Updates an existing team's information, including the number of wins, losses, draws and points.
     </p>
     <div class="py-4 px-4 my-4 bg-gray-400 rounded-md flex justify-between" >
-        <p>http://localhost:3000/team?id={id}</p>
+        <p id="text-${currentId}">http://localhost:3000/team?id={id}</p>
         <button class="bg-gray-100 rounded-sm px-2" id="copy-${currentId}">copy</button>
     </div>
     <p>Method: POST</p>
@@ -108,7 +114,6 @@ for (let elementActive in btn) {
     btn[elementActive].addEventListener('click', () => {
         const endpoint = btn[elementActive].textContent
         const currentId = parseInt(elementActive)
-
         switch (endpoint) {
             case "Get":
                 getRender(currentId)
@@ -123,6 +128,10 @@ for (let elementActive in btn) {
             default:
                 break;
         }
+        const btnToCopy = document?.getElementById(`copy-${currentId}`) as HTMLButtonElement
+        const textToCopy = document?.getElementById(`text-${currentId}`) as HTMLParagraphElement
+        toCopy(btnToCopy, textToCopy);
+        console.log(btnToCopy);
     })
 }
 
