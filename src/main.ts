@@ -11,7 +11,10 @@ const toCopy = (btn: HTMLButtonElement, text: HTMLParagraphElement) => {
         if (textCopy) {
             try {
                 await navigator.clipboard.writeText(textCopy)
-                alert("text success copy")
+                btn.classList.add("bg-gray-500")
+                setTimeout(() => {
+                    btn.classList.remove("bg-gray-500")
+                }, 500);
             } catch (error) {
                 console.log(error);
 
