@@ -1,2 +1,2 @@
 # Kitrako
-project for generator soccer game
+Documentation fo api_soccer
