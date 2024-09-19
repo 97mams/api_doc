@@ -69,16 +69,13 @@ const postRender = (currentId: number): String | undefined => {
     </p>
         `;
     }
-    const btnToCopy = document.getElementById(`copy-${currentId}`) as HTMLButtonElement
-    const textToCopy = document.getElementById(`text-${currentId}`) as HTMLParagraphElement
-    toCopy(btnToCopy, textToCopy);
 }
 
 const putRender = (currentId: number): String | undefined => {
     if (main) {
         return main.innerHTML = `
     <h2 class="text-2xl mb-2">Update a team's statistics</h2>
-    <p class="text-gray-500" id="text-${currentId}">
+    <p class="text-gray-500">
         Updates an existing team's information, including the number of wins, losses, draws and points.
     </p>
     <div class="py-4 px-4 my-4 bg-gray-400 rounded-md flex justify-between" >
@@ -108,9 +105,6 @@ const putRender = (currentId: number): String | undefined => {
     </p>
         `;
     }
-    const btnToCopy = document.getElementById(`copy-${currentId}`) as HTMLButtonElement
-    const textToCopy = document.getElementById(`text-${currentId}`) as HTMLParagraphElement
-    toCopy(btnToCopy, textToCopy);
 }
 
 for (let elementActive in btn) {
