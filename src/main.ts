@@ -1,8 +1,11 @@
 // import './style.css'
 import './index.css'
+import { FormatOptions, prettyPrintJson } from "pretty-print-json"
+import { getData, postData, putData } from './exampleData';
 
 const main = document.querySelector<HTMLDivElement>('#app');
 const btn = document.getElementsByTagName('li') as HTMLCollection;
+
 
 const toCopy = (btn: HTMLButtonElement, text: HTMLParagraphElement) => {
 
@@ -17,11 +20,18 @@ const toCopy = (btn: HTMLButtonElement, text: HTMLParagraphElement) => {
                 }, 500);
             } catch (error) {
                 console.log(error);
-
-
             }
         }
     }
+}
+
+const printJson = async (data: any, req: any, resp: any) => {
+    const options: FormatOptions = { trailingCommas: true }
+    if (req && resp) {
+        req.innerHTML = prettyPrintJson.toHtml(data[0], options);
+        resp.innerHTML = prettyPrintJson.toHtml(data[1]);
+    }
+
 }
 
 const getRender = (currentId: number): String | undefined => {
@@ -49,25 +59,13 @@ const postRender = (currentId: number): String | undefined => {
         <button class="bg-gray-100 rounded-sm px-2" id="copy-${currentId}">copy</button>
     </div>
     <p>Method: POST</p>
-    <p>Body: json</br>
-    {
-        "name": "Team Name"
-    }
-    </p>
-    <p>Response: json</br>
-    {
-    "message": "Team successfully added",
-    "team": {
-      "id": 2,
-      "name": "Team Name",
-      "wins": 0,
-      "losses": 0,
-      "draws": 0
-      "point": 0
-    }
-  }
-    </p>
+    <p>Body:</p>
+    <pre id=data class="json-container"></pre>
+    <p>Response:</p>
+    <pre id=response class=json-container></pre>
+
         `;
+
     }
 }
 
@@ -82,29 +80,14 @@ const putRender = (currentId: number): String | undefined => {
         <p id="text-${currentId}">http://localhost:3000/team?id={id}</p>
         <button class="bg-gray-100 rounded-sm px-2" id="copy-${currentId}">copy</button>
     </div>
-    <p>Method: POST</p>
-    <p>Body: json</br>
-    {
-        "win": 1,
-        "lose": 0,
-        "draw": 0
-    }
-    </p>
-    <p>Response: json</br>
-    {
-	"message": "Team success uptaded",
-	"team": {
-		"win": 1,
-		"lose": 1,
-		"draws": 2,
-		"point": 5,
-		"match": 4,
-		"id": "29"
-	    }
-    }
-    </p>
+    <p>Method: PUT</p>
+    <p>Body:</p>
+    <pre id=data class=json-container></pre>
+    <p>Response:</p>
+    <pre id=response class=json-container></pre>
         `;
     }
+
 }
 
 for (let elementActive in btn) {
@@ -128,7 +111,10 @@ for (let elementActive in btn) {
         const btnToCopy = document?.getElementById(`copy-${currentId}`) as HTMLButtonElement
         const textToCopy = document?.getElementById(`text-${currentId}`) as HTMLParagraphElement
         toCopy(btnToCopy, textToCopy);
-        console.log(btnToCopy);
+        const dataRender = [getData, postData, putData];
+        const elemData = document.getElementById('data');
+        const elemResponse = document.getElementById('response');
+        printJson(dataRender[currentId], elemData, elemResponse);
     })
 }
 
