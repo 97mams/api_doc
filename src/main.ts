@@ -1,7 +1,7 @@
 // import './style.css'
 import './index.css'
 import { FormatOptions, prettyPrintJson } from "pretty-print-json"
-import { getData, postData, putData } from './exampleData';
+import { getAllData, getData, postData, putData } from './exampleData';
 
 const main = document.querySelector<HTMLDivElement>('#app');
 const btn = document.getElementsByTagName('li') as HTMLCollection;
@@ -27,23 +27,54 @@ const toCopy = (btn: HTMLButtonElement, text: HTMLParagraphElement) => {
 
 const printJson = async (data: any, req: any, resp: any) => {
     const options: FormatOptions = { trailingCommas: true }
+
     if (req && resp) {
         req.innerHTML = prettyPrintJson.toHtml(data[0], options);
-        resp.innerHTML = prettyPrintJson.toHtml(data[1]);
+        resp.innerHTML = prettyPrintJson.toHtml(data[1], options);
+    } else {
+        resp.innerHTML = prettyPrintJson.toHtml(data[0], options);
     }
 
+}
+
+const getAllRender = (currentId: number): String | undefined => {
+    if (main) {
+        return main.innerHTML = `
+                            <h2 class="text-2xl mb-2">Get teams</h2>
+                            <div class="flex flex-col gap-2">
+                                <p class="text-gray-500">
+                                    Returns a list of all stored football teams.
+                                </p>
+                                <p>URL:</p>
+                                <div class="py-4 px-4 bg-gray-400 rounded-md flex justify-between" >
+                                    <p id="text-${currentId}">http://localhost:3000/teams</p>
+                                    <button class="bg-gray-100 rounded-sm px-2" id="copy-${currentId}">copy</button>
+                                </div>
+                                <p>Method: GET</p>
+                                <p>Response:</p>
+                                <pre id=response class="json-container"></pre>
+                            </div>
+            `;
+    }
 }
 
 const getRender = (currentId: number): String | undefined => {
     if (main) {
         return main.innerHTML = `
-    <h2 class="text-2xl mb-2">Get teams</h2>
-    <p class="text-gray-500">
-        Returns a list of all stored football teams.
-    </p>
-    <div class="py-4 px-4 my-4 bg-gray-400 rounded-md flex justify-between" >
-        <p id="text-${currentId}">http://localhost:3000/teams</p>
-        <button class="bg-gray-100 rounded-sm px-2" id="copy-${currentId}">copy</button>
+    <h2 class="text-2xl mb-2">Get team</h2>
+    <div class="flex flex-col gap-2">
+        <p class="text-gray-500">
+            Returns the details of a specific team.
+        </p>
+        <p>URL:</p>
+        <div class="py-4 px-4 bg-gray-400 rounded-md flex justify-between" >
+            <p id="text-${currentId}">http://localhost:3000/team?name={name}</p>
+            <button class="bg-gray-100 rounded-sm px-2" id="copy-${currentId}">copy</button>
+        </div>
+        <p>URL Parameter:<br> <mark>\`name\`</mark> (string): The name of the team to retrieve</p>
+        <p>Method: GET</p>
+        <p>Response:</p>
+        <pre id=response class="json-container"></pre>
     </div>
         `;
     }
@@ -91,6 +122,8 @@ const putRender = (currentId: number): String | undefined => {
 }
 
 for (let elementActive in btn) {
+    console.log(elementActive);
+
     btn[elementActive].addEventListener('click', () => {
         const endpoint = btn[elementActive].textContent
         const currentId = parseInt(elementActive)
@@ -98,9 +131,11 @@ for (let elementActive in btn) {
             case "Get":
                 getRender(currentId)
                 break;
+            case "Get_all":
+                getAllRender(currentId)
+                break;
             case "Post":
                 postRender(currentId);
-
                 break;
             case "Put":
                 putRender(currentId);
@@ -111,7 +146,7 @@ for (let elementActive in btn) {
         const btnToCopy = document?.getElementById(`copy-${currentId}`) as HTMLButtonElement
         const textToCopy = document?.getElementById(`text-${currentId}`) as HTMLParagraphElement
         toCopy(btnToCopy, textToCopy);
-        const dataRender = [getData, postData, putData];
+        const dataRender = [getData, getAllData, postData, putData];
         const elemData = document.getElementById('data');
         const elemResponse = document.getElementById('response');
         printJson(dataRender[currentId], elemData, elemResponse);

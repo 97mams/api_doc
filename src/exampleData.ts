@@ -1,26 +1,14 @@
-export const getData = [
-    [
-        {
-            "id": 1,
-            "name": "Team Name",
-            "wins": 10,
-            "losses": 5,
-            "draws": 0,
-            "point": 30,
-            "match": 15
-        },
-        {
-            "id": 2,
-            "name": "Team2 Name",
-            "wins": 3,
-            "losses": 12,
-            "draws": 0,
-            "point": 9,
-            "match": 15
-        },
-    ]
-    ,
+export const getAllData = [
     [{
+        "id": 1,
+        "name": "Team Name",
+        "wins": 10,
+        "losses": 5,
+        "draws": 0,
+        "point": 30,
+        "match": 15
+    },
+    {
         "id": 2,
         "name": "Team2 Name",
         "wins": 3,
@@ -31,6 +19,17 @@ export const getData = [
     },]
 ]
 
+export const getData = [{
+    "id": 2,
+    "name": "Team2 Name",
+    "wins": 3,
+    "losses": 12,
+    "draws": 0,
+    "point": 9,
+    "match": 15
+},]
+
+
 export const postData = [
     {
         "name": "Team2 Name"
@@ -39,7 +38,7 @@ export const postData = [
         "message": "Team successfully added",
         "team": {
             "id": 3,
-            "name": "Team Name",
+            "name": "Team2 Name",
             "wins": 0,
             "losses": 0,
             "draws": 0,
