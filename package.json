@@ -1,7 +1,8 @@
 {
-  "name": "empty_project",
+  "name": "api_documentation",
   "private": true,
-  "version": "0.0.0",
+  "author": "anjaniainamamisoa@gmail.com",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
