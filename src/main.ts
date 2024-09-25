@@ -122,8 +122,6 @@ const putRender = (currentId: number): String | undefined => {
 }
 
 for (let elementActive in btn) {
-    console.log(elementActive);
-
     btn[elementActive].addEventListener('click', () => {
         const endpoint = btn[elementActive].textContent
         const currentId = parseInt(elementActive)
