@@ -1,4 +1,4 @@
-// import './style.css'
+import './style.css'
 import './index.css'
 import { FormatOptions, prettyPrintJson } from "pretty-print-json"
 import { getAllData, getData, postData, putData } from './exampleData';
