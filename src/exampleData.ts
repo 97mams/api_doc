@@ -21,7 +21,7 @@ export const getAllData = [
 
 export const getData = [{
     "id": 2,
-    "name": "Team2 Name",
+    "name": "name",
     "wins": 3,
     "losses": 12,
     "draws": 0,
