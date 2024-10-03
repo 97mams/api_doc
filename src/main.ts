@@ -8,7 +8,6 @@ const btn = document.getElementsByTagName('li') as HTMLCollection;
 
 
 const toCopy = (btn: HTMLButtonElement, text: HTMLParagraphElement) => {
-
     btn.onclick = async () => {
         const textCopy = text.textContent?.trim()
         if (textCopy) {
