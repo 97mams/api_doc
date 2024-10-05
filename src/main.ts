@@ -6,6 +6,22 @@ import { getAllData, getData, postData, putData } from './exampleData';
 const main = document.querySelector<HTMLDivElement>('#app');
 const btn = document.getElementsByTagName('li') as HTMLCollection;
 
+document.addEventListener('DOMContentLoaded',
+    function () {
+        const navItems = document.getElementsByTagName('li') as HTMLCollection
+        for (let item of navItems) {
+            item.addEventListener('clik',
+                function () {
+                    for (let item of navItems) {
+                        item.classList.remove('text-red-500')
+                    }
+                    item.classList.add('text-red-500')
+                }
+            )
+        }
+
+    }
+)
 
 const toCopy = (btn: HTMLButtonElement, text: HTMLParagraphElement) => {
     btn.onclick = async () => {
@@ -92,10 +108,7 @@ const postRender = (currentId: number): String | undefined => {
     <p>Body:</p>
     <pre id=data class="json-container"></pre>
     <p>Response:</p>
-    <pre id=response class=json-container></pre>
-
-        `;
-
+    <pre id=response class=json-container></pre>`;
     }
 }
 
@@ -114,8 +127,7 @@ const putRender = (currentId: number): String | undefined => {
     <p>Body:</p>
     <pre id=data class=json-container></pre>
     <p>Response:</p>
-    <pre id=response class=json-container></pre>
-        `;
+    <pre id=response class=json-container></pre>`;
     }
 
 }
@@ -147,6 +159,15 @@ for (let elementActive in btn) {
         const elemData = document.getElementById('data');
         const elemResponse = document.getElementById('response');
         printJson(dataRender[currentId], elemData, elemResponse);
+        const currentElement = document.getElementsByClassName("bg-gray-500")[0] as HTMLLIElement
+        console.log(currentElement);
+
+        if (currentElement) {
+            currentElement.classList.remove('bg-gray-500')
+            btn[elementActive].classList.add('bg-gray-500')
+        } else {
+            btn[elementActive].classList.add('bg-gray-500 border-black')
+        }
     })
 }
 
